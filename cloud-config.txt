@@ -67,4 +67,4 @@ runcmd:
 
   # 6. Reboot if required by upgrades
   - if [ -f /var/run/reboot-required ]; then reboot; fi
-  - cd /opt/cbt-nf && docker compose build . && docker compose up -d
+  - cd /opt/cbt-nf && docker compose build  && docker compose up -d
