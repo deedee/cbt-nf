@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  php-apache:
+    image: deedee/cbt-nf-web:27102023 
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: 'cbt.nf-pdg.web.id'
+      EMAIL: 'admin@nf-pdg.web.id'
+      PAGESPEED: 'true'
+      LIBMOD: 're2c'
+      APAMOD: 'cache,rewrite,ssl,headers'
+      APDMOD: 'autoindex'
+      PHPMOD: 'bcmath,bz2,intl,gd,mbstring,mysql,zip'
+      PEAMOD: 'xdiff'
+
+    volumes:
+      - ${PWD}/config/letsencrypt:/etc/letsencrypt
+      - ${PWD}/config/apache2:/etc/apache2
+      - ${PWD}/config/php:/etc/php
+      - ${PWD}/htdocs/cbtnf.ac:/var/www/html
+      - ${PWD}/htdocs/dbadmin:/var/www/dbadmin
+
+  db:
+    image: deedee/cbt-nf-db:27102023
+    environment:
+      - MYSQL_ROOT_PASSWORD=R4h4s14Sekali
+      - MYSQL_USER=nfcbt
+      - MYSQL_PASSWORD=adminnfcbt
+        #ports:
+      #      - '3306:3306'
