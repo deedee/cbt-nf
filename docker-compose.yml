@@ -16,11 +16,16 @@ services:
       PEAMOD: 'xdiff'
 
     volumes:
-      - ${PWD}/config/letsencrypt:/etc/letsencrypt
-      - ${PWD}/config/apache2:/etc/apache2
-      - ${PWD}/config/php:/etc/php
-      - ${PWD}/htdocs/cbtnf.ac:/var/www/html
-      - ${PWD}/htdocs/dbadmin:/var/www/dbadmin
+      #- ${PWD}/config/letsencrypt:/etc/letsencrypt
+        #- ${PWD}/config/apache2:/etc/apache2
+        #- ${PWD}/config/php:/etc/php
+        #- ${PWD}/htdocs/cbtnf.ac:/var/www/html
+        #- ${PWD}/htdocs/dbadmin:/var/www/dbadmin
+      - /opt/cbt-nf/config/letsencrypt:/etc/letsencrypt
+      - /opt/cbt-nf/config/apache2:/etc/apache2
+      - /opt/cbt-nf/config/php:/etc/php
+      - /opt/cbt-nf/htdocs/cbtnf.ac:/var/www/html
+      - /opt/cbt-nf/htdocs/dbadmin:/var/www/dbadmin
 
   db:
     image: deedee/cbt-nf-db:27102023

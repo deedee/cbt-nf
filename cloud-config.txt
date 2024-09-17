@@ -1,11 +1,13 @@
 #cloud-config
-# Swap size will be twice the amount of actual memory (RAM)
-# Assuming the system has a default volume where the swap file can be created
 
-# Variables
-SWAP_FILE=/swap.bin
-REPO_URL=https://github.com/deedee/cbt-nf
-REPO_DIR=/opt/cbt-nf
+package_update: true     # Update the apt database
+package_upgrade: true   # Upgrade the instance's packages
+
+power_state:
+  delay: "now"
+  mode: reboot
+  message: Reboot after installing Docker
+  condition: True
 
 # Cloud-Config begins
 write_files:
@@ -29,21 +31,21 @@ write_files:
 
 runcmd:
   # 1. Determine the amount of memory and create swap file of size 2x memory
-  - |
-    MEMORY=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-    SWAP_SIZE_MB=$((MEMORY * 2 / 1024))
-    fallocate -l "${SWAP_SIZE_MB}M" $SWAP_FILE
-    chmod 600 $SWAP_FILE
-    mkswap $SWAP_FILE
-    echo "$SWAP_FILE none swap sw 0 0" >> /etc/fstab
-    swapon -a
+  #- |
+  #  MEMORY=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+  #  SWAP_SIZE_MB=$((MEMORY * 2 / 1024))
+  #  fallocate -l "${SWAP_SIZE_MB}M" /swap.bin 
+  #  chmod 600 /swap.bin
+  #  mkswap /swap.bin
+  #  echo "/swap.bin none swap sw 0 0" >> /etc/fstab
+  #  swapon -a
   
   # 2. Install updates
-  - apt-get update && apt-get -y upgrade
+  #- apt-get update && apt-get -y upgrade
 
   # 3. Install latest Docker CE
   - apt-get remove -y docker docker-engine docker.io containerd runc
-  - apt-get update
+  #- apt-get update
   - apt-get install -y \
         ca-certificates \
         curl \
@@ -52,13 +54,12 @@ runcmd:
   - mkdir -p /etc/apt/keyrings
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
   - echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   - apt-get update
   - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   # 4. Clone the GitHub repo
-  - git clone $REPO_URL $REPO_DIR
+  - git clone https://github.com/deedee/cbt-nf.git /opt/cbt-nf
 
   # 5. Enable and start the docker-compose service on boot
   - systemctl enable docker-compose-autostart.service
