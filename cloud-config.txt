@@ -10,24 +10,24 @@ power_state:
   condition: True
 
 # Cloud-Config begins
-write_files:
-  - path: /etc/systemd/system/docker-compose-autostart.service
-    permissions: '0644'
-    content: |
-      [Unit]
-      Description=Docker Compose Auto-Start for Geonode
-      After=docker.service
-      Requires=docker.service
+#write_files:
+#  - path: /etc/systemd/system/docker-compose-autostart.service
+#    permissions: '0644'
+#    content: |
+#      [Unit]
+#      Description=Docker Compose Auto-Start for Geonode
+#      After=docker.service
+#      Requires=docker.service
 
-      [Service]
-      Restart=always
-      WorkingDirectory=/opt/cbt-nf
-      ExecStart=/usr/local/bin/docker-compose up -d
-      ExecStop=/usr/local/bin/docker-compose down
-      TimeoutStartSec=0
+#      [Service]
+#      Restart=always
+#      WorkingDirectory=/opt/cbt-nf
+#      ExecStart=docker compose up 
+#      ExecStop=docker compose down
+#      TimeoutStartSec=0
 
-      [Install]
-      WantedBy=multi-user.target
+#      [Install]
+#      WantedBy=multi-user.target
 
 runcmd:
   # 1. Determine the amount of memory and create swap file of size 2x memory
@@ -62,9 +62,9 @@ runcmd:
   - git clone https://github.com/deedee/cbt-nf.git /opt/cbt-nf
 
   # 5. Enable and start the docker-compose service on boot
-  - systemctl enable docker-compose-autostart.service
-  - systemctl start docker-compose-autostart.service
+ # - systemctl enable docker-compose-autostart.service
+ # - systemctl start docker-compose-autostart.service
 
   # 6. Reboot if required by upgrades
   - if [ -f /var/run/reboot-required ]; then reboot; fi
-
+  - cd /opt/cbt-nf && docker compose build . && docker compose up -d

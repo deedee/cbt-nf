@@ -1,7 +1,8 @@
-version: '3.9'
+#version: '3.9'
 services:
   php-apache:
-    image: deedee/cbt-nf-web:27102023 
+    image: deedee/cbt-nf-web:27102023-1
+    build: web 
     ports:
       - '80:80'
       - '443:443'
@@ -12,8 +13,8 @@ services:
       LIBMOD: 're2c'
       APAMOD: 'cache,rewrite,ssl,headers'
       APDMOD: 'autoindex'
-      PHPMOD: 'bcmath,bz2,intl,gd,mbstring,mysql,zip'
-      PEAMOD: 'xdiff'
+      PHPMOD: 'bcmath,bz2,intl,gd,mbstring,mysql,zip,xml'
+        #PEAMOD: 'xdiff'
 
     volumes:
       #- ${PWD}/config/letsencrypt:/etc/letsencrypt
@@ -28,10 +29,12 @@ services:
       - /opt/cbt-nf/htdocs/dbadmin:/var/www/dbadmin
 
   db:
-    image: deedee/cbt-nf-db:27102023
+    image: deedee/cbt-nf-db:27102023-1
+    build: db
     environment:
       - MYSQL_ROOT_PASSWORD=R4h4s14Sekali
       - MYSQL_USER=nfcbt
+      - MYSQL_DATABASE=dbcbtnfac
       - MYSQL_PASSWORD=adminnfcbt
         #ports:
       #      - '3306:3306'
