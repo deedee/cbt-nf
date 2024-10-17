@@ -7,7 +7,7 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      DOMAINS: 'cbt.nf-pdg.web.id'
+      DOMAINS: 'cbt1.nf-pdg.web.id cbt2.nf-pdg.web.id cbt3.nf-pdg.web.id'
       EMAIL: 'admin@nf-pdg.web.id'
       PAGESPEED: 'true'
       LIBMOD: 're2c'
@@ -25,7 +25,7 @@ services:
       - /opt/cbt-nf/config/letsencrypt:/etc/letsencrypt
       - /opt/cbt-nf/config/apache2:/etc/apache2
       - /opt/cbt-nf/config/php:/etc/php
-      - /opt/cbt-nf/htdocs/cbtnf.ac:/var/www/html
+      - /opt/cbt-nf/htdocs:/var/www/html
       - /opt/cbt-nf/htdocs/dbadmin:/var/www/dbadmin
 
   db:

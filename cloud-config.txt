@@ -60,7 +60,7 @@ runcmd:
 
   # 4. Clone the GitHub repo
   - git clone https://github.com/deedee/cbt-nf.git /opt/cbt-nf
-
+  - git checkout cbt-3
   # 5. Enable and start the docker-compose service on boot
  # - systemctl enable docker-compose-autostart.service
  # - systemctl start docker-compose-autostart.service
