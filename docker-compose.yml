@@ -35,6 +35,6 @@ services:
       - MYSQL_ROOT_PASSWORD=R4h4s14Sekali
       - MYSQL_USER=nfcbt
       - MYSQL_DATABASE=dbcbtnfac
-      - MYSQL_PASSWORD=adminnfcbt
+      - MYSQL_PASSWORD=adminnfcbtX123
         #ports:
       #      - '3306:3306'

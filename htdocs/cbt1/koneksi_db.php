@@ -2,7 +2,7 @@
     
     $dbhost = "db";
     $dbuser = "nfcbt";
-    $dbpass = "adminnfcbt";
+    $dbpass = "adminnfcbtX123";
     $dbname = "dbcbtnfac";
     
     $con = mysqli_connect($dbhost, $dbuser, $dbpass,$dbname);
